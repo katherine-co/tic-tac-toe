@@ -15,6 +15,7 @@ void board();
 void player1Move();
 void player2Move();
 void resetBoard();
+char checkWin();
 
 int main()
 {
@@ -43,11 +44,22 @@ int main()
             board();
             // Check the board to see if ther is a winner
             winner = checkWin();
+            if (winner != ' ')
+            {
+                break;
+            }
 
             // Continue to play back and forth until there is a win
             player2Move();
             board();
+            winner = checkWin();
+            if (winner != ' ')
+            {
+                break;
+            }
         }
+
+        board();
     }
 
     else
@@ -179,6 +191,12 @@ char checkWin()
     else if (boardSpot[0][2] == boardSpot[1][1] && boardSpot[0][2] == boardSpot[2][0])
     {
         return boardSpot[0][2];
+    }
+    // Checks for a tie
+    else if (boardSpot[0][0] != ' ' && boardSpot[0][1] != ' ' && boardSpot[0][2] != ' ' && boardSpot[1][0] != ' ' && boardSpot[1][1] != ' '
+    && boardSpot[1][2] != ' ' && boardSpot[2][0] != ' ' && boardSpot[2][1] != ' ' && boardSpot[2][2] != ' ')
+    {
+        return 'T';
     }
     else
     {
