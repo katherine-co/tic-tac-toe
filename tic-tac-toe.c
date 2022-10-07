@@ -13,6 +13,8 @@ char player2 = 'O';
 
 void board();
 void player1Move();
+void player2Move();
+void resetBoard();
 
 int main()
 {
@@ -30,13 +32,17 @@ int main()
     {
         printf("You chose person vs. person\n");
         printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
-        
+        resetBoard();
+        board();
+
         while(winner == ' ')
-        {
-            board();
-            
+        {   
             // Ask the player to make their first move and display their move on the board
             player1Move();
+            board();
+            player2Move();
+            board();
+            // Continue to play back and forth until there is a win
         }
     }
 
@@ -48,10 +54,6 @@ int main()
         printf("Player 1 please make your move with the range of (0,0) to (2,2). Enter with format like '0 0': ");
         scanf("%d %d", &row, &column);
     }
-
-    // Display a blank board game
-
-    // Continue to play back and forth until there is a win
 
     // If there is a win, immediately display who won
 
@@ -74,6 +76,18 @@ void board()
     printf("+-----------+\n");   
 }
 
+// Resets the board so that the spaces are ' '
+void resetBoard()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            boardSpot[i][j] = ' ';
+        }
+    }
+}
+
 // Ask the player to make their first move and display their move on the board
 void player1Move()
 {
@@ -82,7 +96,7 @@ void player1Move()
     
     do
     {
-        printf("Player 1 please make your move with the range of (0,0) to (2,2). Enter with format like '0 0': ");
+        printf("Player 1 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
         scanf("%d %d", &row, &column);
         
         if (boardSpot[row][column] != ' ')
@@ -92,7 +106,32 @@ void player1Move()
         else
         {
             boardSpot[row][column] = player1;
+            break;
         }
     }
-    while(boardSpot[row][column] != ' ');
+    while (boardSpot[row][column] != ' ');
+}
+
+void player2Move()
+{
+    int row;
+    int column;
+    
+    do
+    {
+        printf("Player 2 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
+        scanf("%d %d", &row, &column);
+        
+        if (boardSpot[row][column] != ' ')
+        {
+            printf("Invalid! Spot is already taken\n");
+        }
+        else
+        {
+            boardSpot[row][column] = player2;
+            break;
+        }
+    }
+    while (boardSpot[row][column] != ' ');
+    
 }
