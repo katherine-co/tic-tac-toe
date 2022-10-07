@@ -34,15 +34,19 @@ int main()
         printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
         resetBoard();
         board();
+        char winner = ' ';
 
         while(winner == ' ')
         {   
             // Ask the player to make their first move and display their move on the board
             player1Move();
             board();
+            // Check the board to see if ther is a winner
+            winner = checkWin();
+
+            // Continue to play back and forth until there is a win
             player2Move();
             board();
-            // Continue to play back and forth until there is a win
         }
     }
 
@@ -99,6 +103,7 @@ void player1Move()
         printf("Player 1 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
         scanf("%d %d", &row, &column);
         
+        // Checks to see if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
             printf("Invalid! Spot is already taken\n");
@@ -122,6 +127,7 @@ void player2Move()
         printf("Player 2 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
         scanf("%d %d", &row, &column);
         
+        // Checks to see if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
             printf("Invalid! Spot is already taken\n");
@@ -134,4 +140,49 @@ void player2Move()
     }
     while (boardSpot[row][column] != ' ');
     
+}
+
+//Checks to see if there is a winner
+char checkWin()
+{
+    // Checks for row win
+    if (boardSpot[0][0] == boardSpot[0][1] && boardSpot[0][0] == boardSpot[0][2])
+    {
+        return boardSpot[0][0];
+    }
+    else if (boardSpot[1][0] == boardSpot[1][1] && boardSpot[1][0] == boardSpot[1][2])
+    {
+        return boardSpot[1][0];
+    }
+    else if (boardSpot[2][0] == boardSpot[2][1] && boardSpot[2][0] == boardSpot[2][2])
+    {
+        return boardSpot[2][0];
+    }
+    // Checks for column win
+    else if (boardSpot[0][0] == boardSpot[1][0] && boardSpot[0][0] == boardSpot[2][0])
+    {
+        return boardSpot[0][0];
+    }
+    else if (boardSpot[0][1] == boardSpot[1][1] && boardSpot[0][1] == boardSpot[2][1])
+    {
+        return boardSpot[0][1];
+    }
+    else if (boardSpot[0][2] == boardSpot[1][2] && boardSpot[0][2] == boardSpot[2][2])
+    {
+        return boardSpot[0][2];
+    }
+    // Checks for diagonal win
+    else if (boardSpot[0][0] == boardSpot[1][1] && boardSpot[0][0] == boardSpot[2][2])
+    {
+        return boardSpot[0][0];
+    }
+    else if (boardSpot[0][2] == boardSpot[1][1] && boardSpot[0][2] == boardSpot[2][0])
+    {
+        return boardSpot[0][2];
+    }
+    else
+    {
+        return ' ';
+    }
+
 }
