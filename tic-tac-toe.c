@@ -3,6 +3,7 @@
 //Quiz 2: Tic-Tac-Toe
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 // Tic Tac Toe game between 2 players or player vs computer
 char boardSpot[3][3];
@@ -10,10 +11,12 @@ int row;
 int column;
 char player1 = 'X';
 char player2 = 'O';
+char computer = 'O';
 
 void board();
 void player1Move();
 void player2Move();
+void computerMove();
 void resetBoard();
 char checkWin();
 void sayWinner(char);
@@ -36,14 +39,13 @@ int main()
         printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
         resetBoard();
         board();
-        char winner = ' ';
 
         while(winner == ' ')
         {   
             // Ask the player to make their first move and display their move on the board
             player1Move();
             board();
-            // Check the board to see if ther is a winner
+            // Check the board to see if there is a winner
             winner = checkWin();
             if (winner != ' ')
             {
@@ -62,24 +64,44 @@ int main()
 
         printf("\nHere are the results\n");
         board();
+        // Displays the winner and if no winner, will display a tie
         sayWinner(winner);
     }
 
     else
     {
         printf("You chose person vs. computer\n");
-        board();
         printf("\nPlayer 1 (You) is 'X' and Player 2 (Computer) is 'O'\n");
-        printf("Player 1 please make your move with the range of (0,0) to (2,2). Enter with format like '0 0': ");
-        scanf("%d %d", &row, &column);
+        resetBoard();
+        board();
+
+        while(winner == ' ')
+        {   
+            // Ask the player to make their first move and display their move on the board
+            player1Move();
+            board();
+            // Check the board to see if there is a winner
+            winner = checkWin();
+            if (winner != ' ')
+            {
+                break;
+            }
+
+            // Continue to play back and forth until there is a win
+            computerMove();
+            board();
+            winner = checkWin();
+            if (winner != ' ')
+            {
+                break;
+            }
+        }
     }
 
     // If there is a win, immediately display who won
 
     // If there is a tie, immediately stop the program and say it was a tie
 
-    // Prompt the user if they would like to play again
-  
     return 0;
 }
 
@@ -121,7 +143,7 @@ void player1Move()
         // Checks to see if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
-            printf("Invalid! Spot is already taken\n");
+            printf("Invalid move! Please try again.\n");
         }
         else
         {
@@ -145,7 +167,7 @@ void player2Move()
         // Checks to see if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
-            printf("Invalid! Spot is already taken\n");
+            printf("Invalid move! Please try again.\n");
         }
         else
         {
@@ -157,41 +179,57 @@ void player2Move()
     
 }
 
+void computerMove()
+{
+    srand(time(0));
+    int row;
+    int column;
+
+    do
+    {
+        row = rand() % 3;
+        column = rand() % 3;
+    }
+    while(boardSpot[row][column] != ' ');
+
+    boardSpot[row][column] = computer;
+}
+
 //Checks to see if there is a winner
 char checkWin()
 {
     // Checks for row win
-    if (boardSpot[0][0] == boardSpot[0][1] && boardSpot[0][0] == boardSpot[0][2])
+    if (boardSpot[0][0] == boardSpot[0][1] && boardSpot[0][1] == boardSpot[0][2])
     {
         return boardSpot[0][0];
     }
-    else if (boardSpot[1][0] == boardSpot[1][1] && boardSpot[1][0] == boardSpot[1][2])
+    else if (boardSpot[1][0] == boardSpot[1][1] && boardSpot[1][1] == boardSpot[1][2])
     {
         return boardSpot[1][0];
     }
-    else if (boardSpot[2][0] == boardSpot[2][1] && boardSpot[2][0] == boardSpot[2][2])
+    else if (boardSpot[2][0] == boardSpot[2][1] && boardSpot[2][1] == boardSpot[2][2])
     {
         return boardSpot[2][0];
     }
     // Checks for column win
-    else if (boardSpot[0][0] == boardSpot[1][0] && boardSpot[0][0] == boardSpot[2][0])
+    else if (boardSpot[0][0] == boardSpot[1][0] && boardSpot[1][0] == boardSpot[2][0])
     {
         return boardSpot[0][0];
     }
-    else if (boardSpot[0][1] == boardSpot[1][1] && boardSpot[0][1] == boardSpot[2][1])
+    else if (boardSpot[0][1] == boardSpot[1][1] && boardSpot[1][1] == boardSpot[2][1])
     {
         return boardSpot[0][1];
     }
-    else if (boardSpot[0][2] == boardSpot[1][2] && boardSpot[0][2] == boardSpot[2][2])
+    else if (boardSpot[0][2] == boardSpot[1][2] && boardSpot[1][2] == boardSpot[2][2])
     {
         return boardSpot[0][2];
     }
     // Checks for diagonal win
-    else if (boardSpot[0][0] == boardSpot[1][1] && boardSpot[0][0] == boardSpot[2][2])
+    else if (boardSpot[0][0] == boardSpot[1][1] && boardSpot[1][1] == boardSpot[2][2])
     {
         return boardSpot[0][0];
     }
-    else if (boardSpot[0][2] == boardSpot[1][1] && boardSpot[0][2] == boardSpot[2][0])
+    else if (boardSpot[0][2] == boardSpot[1][1] && boardSpot[1][1] == boardSpot[2][0])
     {
         return boardSpot[0][2];
     }
