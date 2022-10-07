@@ -16,6 +16,7 @@ void player1Move();
 void player2Move();
 void resetBoard();
 char checkWin();
+void sayWinner(char);
 
 int main()
 {
@@ -59,7 +60,9 @@ int main()
             }
         }
 
+        printf("\nHere are the results\n");
         board();
+        sayWinner(winner);
     }
 
     else
@@ -202,5 +205,20 @@ char checkWin()
     {
         return ' ';
     }
+}
 
+void sayWinner(char winner)
+{
+    if (winner == player1)
+    {
+        printf("Player 1 wins!");
+    }
+    else if (winner == player2)
+    {
+        printf("Player 2 wins!");
+    }
+    else
+    {
+        printf("You ended the game with a tie!");
+    }
 }
