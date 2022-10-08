@@ -40,7 +40,7 @@ int main()
         // Read information from console and converts to integer
         scanf(" %d", &userInput);
 
-        if (userInput == 1)
+        if (userInput == 1) // If user chooses person vs. person
         {
             printf("You chose person vs. person\n");
             printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
@@ -75,7 +75,7 @@ int main()
             sayWinner(winner);
         }
 
-        else if (userInput == 2)
+        else if (userInput == 2) // If user chooses person vs. computer
         {
             printf("You chose person vs. computer\n");
             printf("\nPlayer 1 (You) is 'X' and Player 2 (Computer) is 'O'\n");
@@ -110,13 +110,13 @@ int main()
             sayWinnerAgainstPC(winner);
         }
 
-        else
+        else // If user enter a value other than 1 or 2
         {
             printf("\nInvalid input. You must enter either 1 or 2. Please restart the game.\n");
             break;
         }
 
-        printf("\nWould you like to play again (y/n)? ");
+        printf("\nWould you like to play again (y/n)? ");   // Asks user if they would like play again
         scanf("\n%c", &userAgain);
         userAgain = tolower(userAgain);
     }
@@ -150,7 +150,7 @@ void resetBoard()
     }
 }
 
-// Asks player 1 to make their first move and input their move on the board
+// Asks player 1 to make their move and input their move on the board
 void player1Move()
 {
     int row;
@@ -161,7 +161,7 @@ void player1Move()
         printf("Player 1 please enter your move with range of 0-2 for row and 0-2 for column. Enter '<row> <column>' format like '0 0': ");
         scanf("%d %d", &row, &column);
         
-        // Checks to see if the spot user inputted is occupied
+        // Checks if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
             printf("Invalid move! Please try again.\n");
@@ -186,7 +186,7 @@ void player2Move()
         printf("Player 2 please enter your move with range of 0-2 for row and 0-2 for column. Enter '<row> <column>' format like '0 0': ");
         scanf("%d %d", &row, &column);
         
-        // Checks to see if the spot user inputted is occupied
+        // Checks if the spot user inputted is occupied
         if (boardSpot[row][column] != ' ')
         {
             printf("Invalid move! Please try again.\n");
@@ -201,7 +201,7 @@ void player2Move()
     
 }
 
-// Computer move using sran() generator
+// Computer moves using sran() generator
 void computerMove()
 {
     srand(time(0));
@@ -216,7 +216,7 @@ void computerMove()
             row = rand() % 3;
             column = rand() % 3;
         }
-        while(boardSpot[row][column] != ' ');
+        while(boardSpot[row][column] != ' ');   // Runs only if spot it initially checked is already occupied
     boardSpot[row][column] = computer;
     }
     else
