@@ -75,7 +75,7 @@ int main()
             sayWinner(winner);
         }
 
-        else
+        else if (userInput == 2)
         {
             printf("You chose person vs. computer\n");
             printf("\nPlayer 1 (You) is 'X' and Player 2 (Computer) is 'O'\n");
@@ -108,6 +108,12 @@ int main()
             board();
             // Displays the winner and if no winner, will display a tie
             sayWinnerAgainstPC(winner);
+        }
+
+        else
+        {
+            printf("\nInvalid input. You must enter either 1 or 2. Please restart the game.\n");
+            break;
         }
 
         printf("\nWould you like to play again (y/n)? ");
@@ -152,7 +158,7 @@ void player1Move()
     
     do
     {
-        printf("Player 1 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
+        printf("Player 1 please enter your move with range of 0-2 for row and 0-2 for column. Enter '<row> <column>' format like '0 0': ");
         scanf("%d %d", &row, &column);
         
         // Checks to see if the spot user inputted is occupied
@@ -177,7 +183,7 @@ void player2Move()
     
     do
     {
-        printf("Player 2 please enter your move with range of (0,0) to (2,2). Enter with format like '0 0': ");
+        printf("Player 2 please enter your move with range of 0-2 for row and 0-2 for column. Enter '<row> <column>' format like '0 0': ");
         scanf("%d %d", &row, &column);
         
         // Checks to see if the spot user inputted is occupied
