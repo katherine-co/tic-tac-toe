@@ -22,6 +22,7 @@ int spacesLeft();
 void resetBoard();
 char checkWin();
 void sayWinner(char);
+void sayWinnerAgainstPC(char);
 
 int main()
 {
@@ -106,14 +107,14 @@ int main()
             printf("\nHere are the results\n");
             board();
             // Displays the winner and if no winner, will display a tie
-            sayWinner(winner);
+            sayWinnerAgainstPC(winner);
         }
 
         printf("\nWould you like to play again (y/n)? ");
         scanf("\n%c", &userAgain);
         userAgain = tolower(userAgain);
     }
-    while (userAgain == 'y');
+    while (userAgain == 'y');   // loops while user agrees to play again
 
     printf("This is the end of the game. Thank you for playing!");
     return 0;
@@ -165,7 +166,7 @@ void player1Move()
             break;
         }
     }
-    while (boardSpot[row][column] != ' ');
+    while (boardSpot[row][column] != ' ');  // loops while spot on board is occupied
 }
 
 // Asks player 2 to make their move and input their move on the board
@@ -190,10 +191,11 @@ void player2Move()
             break;
         }
     }
-    while (boardSpot[row][column] != ' ');
+    while (boardSpot[row][column] != ' ');  // loops while spot on board is occupied
     
 }
 
+// Computer move using sran() generator
 void computerMove()
 {
     srand(time(0));
@@ -201,7 +203,7 @@ void computerMove()
     int column;
     
     printf("Computer's move\n");
-    if (spacesLeft() > 0)
+    if (spacesLeft() > 0)   // Checks first to see if there is space left or it's a tie
     {
         do
         {
@@ -285,6 +287,7 @@ char checkWin()
     }
 }
 
+// Winning message for person vs. person
 void sayWinner(char winner)
 {
     if (winner == player1)
@@ -294,6 +297,23 @@ void sayWinner(char winner)
     else if (winner == player2)
     {
         printf("Player 2 wins!");
+    }
+    else
+    {
+        printf("You ended the game with a tie!");
+    }
+}
+
+// Winning message for person vs. computer
+void sayWinnerAgainstPC(char winner)
+{
+    if (winner == player1)
+    {
+        printf("You win!");
+    }
+    else if (winner == computer)
+    {
+        printf("Oh no! You lost.");
     }
     else
     {
