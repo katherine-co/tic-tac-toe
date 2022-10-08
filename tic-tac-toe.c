@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 // Tic Tac Toe game between 2 players or player vs computer
 char boardSpot[3][3];
@@ -17,91 +18,104 @@ void board();
 void player1Move();
 void player2Move();
 void computerMove();
+int spacesLeft();
 void resetBoard();
 char checkWin();
 void sayWinner(char);
 
 int main()
 {
-    int userInput;
-    char winner = ' ';
-    
-    // Prompt user for game they wish to play (person vs. person or player vs. computer)
-    printf("Welcome to the game of Tic-Tac-Toe!\n");
-    printf("Please enter 1 for person vs. person or 2 for person vs. computer: ");
+    char userAgain = ' ';
 
-    // Read information from console and converts to integer
-    scanf("%d", &userInput);
-
-    if (userInput == 1)
+    do
     {
-        printf("You chose person vs. person\n");
-        printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
-        resetBoard();
-        board();
+        int userInput;
+        char winner = ' ';
+        
+        // Prompt user for game they wish to play (person vs. person or player vs. computer)
+        printf("Welcome to the game of Tic-Tac-Toe!\n");
+        printf("Please enter 1 for person vs. person or 2 for person vs. computer: ");
 
-        while(winner == ' ')
-        {   
-            // Ask the player to make their first move and display their move on the board
-            player1Move();
+        // Read information from console and converts to integer
+        scanf(" %d", &userInput);
+
+        if (userInput == 1)
+        {
+            printf("You chose person vs. person\n");
+            printf("\nPlayer 1 is 'X' and Player 2 is 'O'\n");
+            resetBoard();
             board();
-            // Check the board to see if there is a winner
-            winner = checkWin();
-            if (winner != ' ')
-            {
-                break;
+
+            while(winner == ' ')
+            {   
+                // Ask the player to make their first move and display their move on the board
+                player1Move();
+                board();
+                // Check the board to see if there is a winner
+                winner = checkWin();
+                if (winner != ' ')
+                {
+                    break;
+                }
+
+                // Continue to play back and forth until there is a win
+                player2Move();
+                board();
+                winner = checkWin();
+                if (winner != ' ')
+                {
+                    break;
+                }
             }
 
-            // Continue to play back and forth until there is a win
-            player2Move();
+            printf("\nHere are the results\n");
             board();
-            winner = checkWin();
-            if (winner != ' ')
-            {
-                break;
-            }
+            // Displays the winner and if no winner, will display a tie
+            sayWinner(winner);
         }
 
-        printf("\nHere are the results\n");
-        board();
-        // Displays the winner and if no winner, will display a tie
-        sayWinner(winner);
-    }
-
-    else
-    {
-        printf("You chose person vs. computer\n");
-        printf("\nPlayer 1 (You) is 'X' and Player 2 (Computer) is 'O'\n");
-        resetBoard();
-        board();
-
-        while(winner == ' ')
-        {   
-            // Ask the player to make their first move and display their move on the board
-            player1Move();
+        else
+        {
+            printf("You chose person vs. computer\n");
+            printf("\nPlayer 1 (You) is 'X' and Player 2 (Computer) is 'O'\n");
+            resetBoard();
             board();
-            // Check the board to see if there is a winner
-            winner = checkWin();
-            if (winner != ' ')
-            {
-                break;
-            }
 
-            // Continue to play back and forth until there is a win
-            computerMove();
-            board();
-            winner = checkWin();
-            if (winner != ' ')
-            {
-                break;
+            while(winner == ' ')
+            {   
+                // Ask the player to make their first move and display their move on the board
+                player1Move();
+                board();
+                // Check the board to see if there is a winner
+                winner = checkWin();
+                if (winner != ' ')
+                {
+                    break;
+                }
+
+                // Continue to play back and forth until there is a win
+                computerMove();
+                board();
+                winner = checkWin();
+                if (winner != ' ')
+                {
+                    break;
+                }
             }
+            
+            printf("\nHere are the results\n");
+            board();
+            // Displays the winner and if no winner, will display a tie
+            sayWinner(winner);
         }
+
+        printf("\nWould you like to play again (y/n)? ");
+        scanf("\n%c", &userAgain);
+        userAgain = tolower(userAgain);
     }
+    while (userAgain == 'y');
 
-    // If there is a win, immediately display who won
-
-    // If there is a tie, immediately stop the program and say it was a tie
-
+    printf("This is the end of the game. Thank you for playing!");
     return 0;
 }
 
@@ -129,7 +143,7 @@ void resetBoard()
     }
 }
 
-// Ask the player to make their first move and display their move on the board
+// Asks player 1 to make their first move and input their move on the board
 void player1Move()
 {
     int row;
@@ -154,6 +168,7 @@ void player1Move()
     while (boardSpot[row][column] != ' ');
 }
 
+// Asks player 2 to make their move and input their move on the board
 void player2Move()
 {
     int row;
@@ -184,15 +199,40 @@ void computerMove()
     srand(time(0));
     int row;
     int column;
-
-    do
+    
+    printf("Computer's move\n");
+    if (spacesLeft() > 0)
     {
-        row = rand() % 3;
-        column = rand() % 3;
-    }
-    while(boardSpot[row][column] != ' ');
-
+        do
+        {
+            row = rand() % 3;
+            column = rand() % 3;
+        }
+        while(boardSpot[row][column] != ' ');
     boardSpot[row][column] = computer;
+    }
+    else
+    {
+        sayWinner(' ');
+    }
+}
+
+// This is to check for a tie for person vs. computer
+int spacesLeft()
+{
+    int spacesLeft = 9;
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            if(boardSpot[i][j] != ' ')
+            {
+                spacesLeft--;
+            }
+        }
+    }
+    
+    return spacesLeft;
 }
 
 //Checks to see if there is a winner
