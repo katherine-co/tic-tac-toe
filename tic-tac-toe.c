@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 // Tic Tac Toe game between 2 players or player vs computer
 char boardSpot[3][3];
